@@ -201,21 +201,24 @@ export class ReferralsComponent implements OnInit {
           told_them_you_would_will: formValue.told_them_you_would_will,
           given_card: formValue.given_card
         },
-        referral: formValue.referral,
+        referral: formValue.referral || '',
         mobile_number: formValue.mobile_number,
-        address: formValue.address,
-        comments: formValue.comments,
-        business_name: formValue.business_name,
+        address: formValue.address || '',
+        comments: formValue.comments || '',
+        business_name: formValue.business_name || '',
         rating: formValue.rating
       };
 
+      console.log('Creating referral with data:', referralData);
+      
       await this.referralService.createReferral(referralData);
       this.closeConnectionSlip();
-      await this.loadActiveTabData(); // Refresh the current tab data
-      await swalHelper.showToast('Referral created successfully!', 'success');
+      
+      // Refresh the current tab data
+      await this.loadActiveTabData();
+      
     } catch (error) {
       console.error('Error creating referral:', error);
-      await swalHelper.showToast('Failed to create referral', 'error');
     }
   }
 
