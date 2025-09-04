@@ -24,6 +24,12 @@ export class SideBarService {
           icon: 'users',
         },
         {
+           title: 'Referrals',
+           link: 'referrals',
+           icon: 'corner-up-right',
+        },
+
+        {
           title: 'Events',
           icon: 'calendar',
           hasSubmenu: true,
@@ -42,28 +48,6 @@ export class SideBarService {
               title: 'Event History',
               link: 'events/history',
               icon: 'history',
-            },
-          ]
-        },
-        {
-          title: 'Referrals',
-          icon: 'corner-up-right',
-          hasSubmenu: true,
-          submenu: [
-            {
-              title: 'Give Referral',
-              link: 'referrals',
-              icon: 'corner-up-right',
-            },
-            {
-              title: 'Referrals Given',
-              link: 'referrals/given',
-              icon: 'corner-up-right',
-            },
-            {
-              title: 'Referrals Received',
-              link: 'referrals/received',
-              icon: 'corner-down-left',
             },
           ]
         },

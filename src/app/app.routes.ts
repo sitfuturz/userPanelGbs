@@ -5,7 +5,7 @@ import { CustomerAuthGuard } from './guards/customer-auth.guard';
 import { VerificationComponent } from './views/pages/verification/verification.component';
 import { DashboardComponent } from './views/pages/dashboard/dashboard.component';
 import { HomeLayoutComponent } from './views/partials/home-layout/home-layout.component';
-import { ReferralComponent } from './views/pages/referrals/referral.component';
+import { ReferralsComponent } from './views/pages/referrals/referrals.component';
 
 export const routes: Routes = [
   // Default redirect to customer login
@@ -34,18 +34,15 @@ export const routes: Routes = [
       {
         path: 'dashboard',
         component: DashboardComponent
+      },
+      {
+        path: 'referrals',
+        component: ReferralsComponent
       }
     ]
-  },
-
-  // Referral management
-  {
-    path: 'referrals',
-    component: ReferralComponent,
-    canActivate: [CustomerAuthGuard]
-    
   },
 
   // Wildcard route - redirect to login
   { path: '**', redirectTo: 'login' }
 ];
+  

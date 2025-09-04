@@ -3,6 +3,7 @@ import { ApiManager } from '../core/utilities/api-manager';
 import { AppStorage } from '../core/utilities/app-storage';
 import { swalHelper } from '../core/constants/swal-helper';
 import { common } from '../core/constants/common';
+import { apiEndpoints } from '../core/constants/api-endpoints';
 
 export interface ReferralData {
   _id: string;
@@ -69,7 +70,7 @@ export interface UserResponse {
 }
 
 export interface CreateReferralRequest {
-  giver_id?: string; // Will be added from token
+  giver_id?: string;
   receiver_id: string;
   referral_type: 'inside' | 'outside';
   referral_status: {
@@ -89,7 +90,6 @@ export interface CreateReferralRequest {
 })
 export class ReferralService {
   private headers: any = [];
-  private baseUrl = 'http://localhost:3200';
 
   constructor(
     private apiManager: ApiManager,
@@ -99,7 +99,7 @@ export class ReferralService {
   private getHeaders = () => {
     this.headers = [];
     let token = this.storage.get(common.TOKEN);
-    if (token != null) {
+    if (token) {
       this.headers.push({ 
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
@@ -114,7 +114,6 @@ export class ReferralService {
     }
     
     try {
-      // Decode JWT token to get user ID
       const payload = JSON.parse(atob(token.split('.')[1]));
       return payload.userId;
     } catch (error) {
@@ -125,24 +124,25 @@ export class ReferralService {
   /**
    * Get given referrals for the current user
    */
-  async getGivenReferrals(page: number = 1): Promise<ReferralResponse> {
+  async getGivenReferrals(page: number = 1, limit: number = 20): Promise<ReferralResponse> {
     try {
       this.getHeaders();
       const userId = this.getUserIdFromToken();
       
       const response = await this.apiManager.request(
         {
-          url: `${this.baseUrl}/mobile/get-given-referral/${userId}?page=${page}`,
+          url: `${apiEndpoints.referrals.getGivenReferral}/${userId}?page=${page}&limit=${limit}`,
           method: 'GET',
         },
         null,
         this.headers
       );
       
+      await swalHelper.showToast(response.message || 'Given referrals fetched successfully', 'success');
       return response.data || response;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Get Given Referrals Error:', error);
-      swalHelper.showToast('Failed to fetch given referrals', 'error');
+      await swalHelper.showToast(error.message || 'Failed to fetch given referrals', 'error');
       throw error;
     }
   }
@@ -150,24 +150,25 @@ export class ReferralService {
   /**
    * Get received referrals for the current user
    */
-  async getReceivedReferrals(page: number = 1): Promise<ReferralResponse> {
+  async getReceivedReferrals(page: number = 1, limit: number = 20): Promise<ReferralResponse> {
     try {
       this.getHeaders();
       const userId = this.getUserIdFromToken();
       
       const response = await this.apiManager.request(
         {
-          url: `${this.baseUrl}/mobile/get-received-referral/${userId}?page=${page}`,
+          url: `${apiEndpoints.referrals.getReceivedReferral}/${userId}?page=${page}&limit=${limit}`,
           method: 'GET',
         },
         null,
         this.headers
       );
       
+      await swalHelper.showToast(response.message || 'Received referrals fetched successfully', 'success');
       return response.data || response;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Get Received Referrals Error:', error);
-      swalHelper.showToast('Failed to fetch received referrals', 'error');
+      await swalHelper.showToast(error.message || 'Failed to fetch received referrals', 'error');
       throw error;
     }
   }
@@ -181,17 +182,18 @@ export class ReferralService {
       
       const response = await this.apiManager.request(
         {
-          url: `${this.baseUrl}/mobile/get-inside-users?page=${page}&limit=${limit}`,
+          url: `${apiEndpoints.referrals.getInsideUsers}?page=${page}&limit=${limit}`,
           method: 'GET',
         },
         null,
         this.headers
       );
       
+      await swalHelper.showToast(response.message || 'Inside users fetched successfully', 'success');
       return response.data || response;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Get Inside Users Error:', error);
-      swalHelper.showToast('Failed to fetch inside users', 'error');
+      await swalHelper.showToast(error.message || 'Failed to fetch inside users', 'error');
       throw error;
     }
   }
@@ -205,17 +207,18 @@ export class ReferralService {
       
       const response = await this.apiManager.request(
         {
-          url: `${this.baseUrl}/mobile/get-outside-users?page=${page}&limit=${limit}`,
+          url: `${apiEndpoints.referrals.getOutsideUsers}?page=${page}&limit=${limit}`,
           method: 'GET',
         },
         null,
         this.headers
       );
       
+      await swalHelper.showToast(response.message || 'Outside users fetched successfully', 'success');
       return response.data || response;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Get Outside Users Error:', error);
-      swalHelper.showToast('Failed to fetch outside users', 'error');
+      await swalHelper.showToast(error.message || 'Failed to fetch outside users', 'error');
       throw error;
     }
   }
@@ -228,7 +231,6 @@ export class ReferralService {
       this.getHeaders();
       const userId = this.getUserIdFromToken();
       
-      // Add giver_id from token
       const requestData = {
         ...referralData,
         giver_id: userId
@@ -236,17 +238,18 @@ export class ReferralService {
 
       const response = await this.apiManager.request(
         {
-          url: `${this.baseUrl}/mobile/create-referral`,
+          url: apiEndpoints.referrals.createReferral,
           method: 'POST',
         },
         requestData,
         this.headers
       );
       
+      await swalHelper.showToast(response.message || 'Referral created successfully', 'success');
       return response.data || response;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Create Referral Error:', error);
-      swalHelper.showToast('Failed to create referral', 'error');
+      await swalHelper.showToast(error.message || 'Failed to create referral', 'error');
       throw error;
     }
   }
@@ -254,7 +257,7 @@ export class ReferralService {
   /**
    * Get all users (both inside and outside) with search and pagination
    */
-  async getAllUsers(searchTerm: string = '', page: number = 1, limit: number = 20): Promise<{inside: UserResponse, outside: UserResponse}> {
+  async getAllUsers(searchTerm: string = '', page: number = 1, limit: number = 20): Promise<{ inside: UserResponse, outside: UserResponse }> {
     try {
       const [insideUsers, outsideUsers] = await Promise.all([
         this.getInsideUsers(page, limit),
@@ -265,8 +268,9 @@ export class ReferralService {
         inside: insideUsers,
         outside: outsideUsers
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error('Get All Users Error:', error);
+      await swalHelper.showToast(error.message || 'Failed to fetch users', 'error');
       throw error;
     }
   }
@@ -280,17 +284,18 @@ export class ReferralService {
       
       const response = await this.apiManager.request(
         {
-          url: `${this.baseUrl}/mobile/update-referral/${referralId}`,
+          url: `${apiEndpoints.referrals.updateReferral}/${referralId}`,
           method: 'PUT',
         },
         referralData,
         this.headers
       );
       
+      await swalHelper.showToast(response.message || 'Referral updated successfully', 'success');
       return response.data || response;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Update Referral Error:', error);
-      swalHelper.showToast('Failed to update referral', 'error');
+      await swalHelper.showToast(error.message || 'Failed to update referral', 'error');
       throw error;
     }
   }
@@ -304,17 +309,18 @@ export class ReferralService {
       
       const response = await this.apiManager.request(
         {
-          url: `${this.baseUrl}/mobile/delete-referral/${referralId}`,
+          url: `${apiEndpoints.referrals.deleteReferral}/${referralId}`,
           method: 'DELETE',
         },
         null,
         this.headers
       );
       
+      await swalHelper.showToast(response.message || 'Referral deleted successfully', 'success');
       return response.data || response;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Delete Referral Error:', error);
-      swalHelper.showToast('Failed to delete referral', 'error');
+      await swalHelper.showToast(error.message || 'Failed to delete referral', 'error');
       throw error;
     }
   }
@@ -329,17 +335,18 @@ export class ReferralService {
       
       const response = await this.apiManager.request(
         {
-          url: `${this.baseUrl}/mobile/referral-stats/${userId}`,
+          url: `${apiEndpoints.referrals.getReferralStats}/${userId}`,
           method: 'GET',
         },
         null,
         this.headers
       );
       
+      await swalHelper.showToast(response.message || 'Referral stats fetched successfully', 'success');
       return response.data || response;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Get Referral Stats Error:', error);
-      swalHelper.showToast('Failed to fetch referral statistics', 'error');
+      await swalHelper.showToast(error.message || 'Failed to fetch referral statistics', 'error');
       throw error;
     }
   }
