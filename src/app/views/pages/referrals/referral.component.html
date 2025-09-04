@@ -1,0 +1,327 @@
+<div class="container-fluid">
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="text-dark fw-bold">Connection</h4>
+    <button 
+      class="btn btn-primary d-flex align-items-center gap-2"
+      (click)="openAddForm()"
+      [disabled]="loading">
+      <i class="fas fa-plus"></i>
+      Add
+    </button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <!-- Tab Navigation -->
+      <ul class="nav nav-tabs border-0 mb-3">
+        <li class="nav-item">
+          <button 
+            class="nav-link"
+            [class.active]="activeTab === 'given'"
+            (click)="onTabChange('given')">
+            Given
+          </button>
+        </li>
+        <li class="nav-item">
+          <button 
+            class="nav-link"
+            [class.active]="activeTab === 'received'"
+            (click)="onTabChange('received')">
+            Received
+          </button>
+        </li>
+      </ul>
+
+      <!-- Loading Spinner -->
+      <div *ngIf="loading" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div *ngIf="!loading">
+        <div class="row">
+          <!-- Table Section -->
+          <div class="col-lg-8">
+            <!-- Table -->
+            <div class="table-responsive">
+              <table class="table table-borderless">
+                <thead class="table-warning">
+                  <tr>
+                    <th class="fw-semibold">Name</th>
+                    <th class="fw-semibold">Connection</th>
+                    <th class="fw-semibold">Type</th>
+                    <th class="fw-semibold">Rating</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let referral of getCurrentReferrals().data">
+                    <td>
+                      <div class="d-flex align-items-center gap-3">
+                        <img 
+                          [src]="getImageUrl(referral.giver_id?.profilePic || '')" 
+                          class="rounded-circle"
+                          width="32" 
+                          height="32"
+                          [alt]="referral.giver_id?.name || 'Avatar'"
+                          style="object-fit: cover;">
+                        <span class="text-sm">{{ referral.giver_id?.name || referral.referral || 'N/A' }}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="text-sm">{{ referral.business_name || 'N/A' }}</span>
+                    </td>
+                    <td>
+                      <span class="badge" 
+                            [class.bg-primary]="referral.referral_type === 'inside'"
+                            [class.bg-secondary]="referral.referral_type === 'outside'">
+                        {{ referral.referral_type | titlecase }}
+                      </span>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-1 text-warning">
+                        <i class="fas fa-star"></i>
+                        <span class="text-sm fw-medium">{{ referral.rating?.toFixed(1) || '0.0' }}</span>
+                      </div>
+                    </td>
+                  </tr>
+                  
+                  <!-- Empty State -->
+                  <tr *ngIf="getCurrentReferrals().data.length === 0">
+                    <td colspan="4" class="text-center py-4 text-muted">
+                      <i class="fas fa-users fa-3x mb-3"></i>
+                      <div>No {{ activeTab }} referrals found.</div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center mt-3" *ngIf="getCurrentReferrals().totalPages > 1">
+              <small class="text-muted">
+                Showing {{ (getCurrentReferrals().page - 1) * 10 + 1 }} to 
+                {{ Math.min(getCurrentReferrals().page * 10, getCurrentReferrals().totalDocs) }} 
+                of {{ getCurrentReferrals().totalDocs }} entries
+              </small>
+              
+              <pagination-controls 
+                (pageChange)="onPageChange($event)"
+                [responsive]="true"
+            
+                previousLabel=""
+                nextLabel=""
+                screenReaderPaginationLabel="Pagination"
+                screenReaderPageLabel="page"
+                screenReaderCurrentLabel="You're on page">
+              </pagination-controls>
+            </div>
+          </div>
+
+          <!-- Connection Slip (Placeholder) -->
+          <div class="col-lg-4" *ngIf="activeTab === 'given' && getCurrentReferrals().data.length > 0">
+            <div class="card border rounded-3 bg-light">
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <h6 class="fw-semibold mb-0">Connection Slip</h6>
+                  <button class="btn btn-sm btn-outline-secondary rounded-circle p-1">
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+                <div class="text-center text-muted py-4">
+                  <i class="fas fa-file-alt fa-2x mb-2"></i>
+                  <div class="small">Select a referral to view details</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add Referral Modal -->
+<div class="modal fade" id="addReferralModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Connection Slip</h5>
+        <button type="button" class="btn-close btn-close-white" (click)="closeAddForm()"></button>
+      </div>
+      
+      <form [formGroup]="referralForm" (ngSubmit)="onSubmitReferral()">
+        <div class="modal-body">
+          <div class="row g-3">
+            <!-- Chapter Selection -->
+            <div class="col-12">
+              <label class="form-label text-muted small">Is the member In - Chapter or Cross - Chapter?</label>
+              <div class="btn-group w-100" role="group">
+                <input type="radio" class="btn-check" name="chapterType" id="inChapter" value="inside" 
+                       formControlName="referral_type" checked>
+                <label class="btn btn-outline-primary" for="inChapter">In - Chapter</label>
+                
+                <input type="radio" class="btn-check" name="chapterType" id="crossChapter" value="outside" 
+                       formControlName="referral_type">
+                <label class="btn btn-outline-primary" for="crossChapter">Cross - Chapter</label>
+              </div>
+            </div>
+
+            <!-- Member Selection -->
+            <div class="col-12">
+              <label class="form-label text-muted small">Select Member</label>
+              <ng-select 
+                formControlName="receiver_id"
+                placeholder="Select Member"
+                bindLabel="name"
+                bindValue="_id"
+                [items]="selectedUsers"
+                [clearable]="true"
+                [searchable]="true">
+                <ng-template ng-label-tmp let-item="item">
+                  <div class="d-flex align-items-center gap-2">
+                    <img [src]="getImageUrl(item.profilePic)" 
+                         class="rounded-circle" 
+                         width="20" 
+                         height="20" 
+                         style="object-fit: cover;">
+                    <div>
+                      <div class="fw-medium">{{ item.name }}</div>
+                      <small class="text-muted">{{ item.business_name }}</small>
+                    </div>
+                  </div>
+                </ng-template>
+                <ng-template ng-option-tmp let-item="item">
+                  <div class="d-flex align-items-center gap-2">
+                    <img [src]="getImageUrl(item.profilePic)" 
+                         class="rounded-circle" 
+                         width="20" 
+                         height="20" 
+                         style="object-fit: cover;">
+                    <div>
+                      <div class="fw-medium">{{ item.name }}</div>
+                      <small class="text-muted">{{ item.business_name }}</small>
+                    </div>
+                  </div>
+                </ng-template>
+              </ng-select>
+              <div *ngIf="referralForm.get('receiver_id')?.invalid && referralForm.get('receiver_id')?.touched" 
+                   class="text-danger small mt-1">
+                Please select a member
+              </div>
+            </div>
+
+            <!-- Referral Type (Hidden since it's handled by chapter selection) -->
+
+            <!-- Referral Status -->
+            <div class="col-12">
+              <label class="form-label text-muted small">Referral Status</label>
+              <div class="border rounded p-3">
+                <div class="form-check mb-2">
+                  <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    id="toldCall"
+                    formControlName="told_them_you_would_will">
+                  <label class="form-check-label" for="toldCall">
+                    Told them you would call
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    id="givenCard"
+                    formControlName="given_card">
+                  <label class="form-check-label" for="givenCard">
+                    Given your card
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Referral Details -->
+            <div class="col-12">
+              <label class="form-label text-muted small">Referral Details</label>
+            </div>
+
+            <div class="col-md-6">
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Name"
+                formControlName="referral">
+            </div>
+
+            <div class="col-md-6">
+              <input 
+                type="tel" 
+                class="form-control" 
+                placeholder="Mobile Number"
+                formControlName="mobile_number">
+              <div *ngIf="referralForm.get('mobile_number')?.invalid && referralForm.get('mobile_number')?.touched" 
+                   class="text-danger small mt-1">
+                Please enter a valid 10-digit mobile number
+              </div>
+            </div>
+
+            <div class="col-12">
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="Company Name"
+                formControlName="business_name">
+            </div>
+
+            <div class="col-12">
+              <textarea 
+                class="form-control" 
+                rows="2" 
+                placeholder="Address"
+                formControlName="address"></textarea>
+            </div>
+
+            <div class="col-12">
+              <textarea 
+                class="form-control" 
+                rows="2" 
+                placeholder="Comments"
+                formControlName="comments"></textarea>
+            </div>
+
+            <!-- Rating -->
+            <div class="col-12">
+              <label class="form-label text-muted small">Rating</label>
+              <div class="d-flex gap-2">
+                <input 
+                  type="range" 
+                  class="form-range flex-grow-1" 
+                  min="1" 
+                  max="5" 
+                  step="1"
+                  formControlName="rating">
+                <span class="badge bg-warning text-dark">{{ referralForm.get('rating')?.value || 1 }} / 5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeAddForm()">
+            Cancel
+          </button>
+          <button 
+            type="submit" 
+            class="btn btn-primary"
+            [disabled]="referralForm.invalid || loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+            Submit Referral
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
