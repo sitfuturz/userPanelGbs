@@ -1,2 +1,279 @@
-<p>referrals  hjhgjh works!</p>
-<p>lorem89</p>qawe45dr6ft7gyhiom
+<!-- referrals.component.html -->
+<div class="referrals-container">
+  <!-- Header Section -->
+  <div class="referrals-header">
+    <h1 class="page-title">Connection</h1>
+    
+    <!-- Tabs and Add Button -->
+    <div class="header-controls">
+      <div class="tab-container">
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'given'"
+          (click)="switchTab('given')">
+          Given
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'received'"
+          (click)="switchTab('received')">
+          Received
+        </button>
+      </div>
+      
+      <button class="add-btn" (click)="openConnectionSlip()">
+        <i class="plus-icon">+</i>
+        Add
+      </button>
+    </div>
+  </div>
+
+  <!-- Table Header -->
+  <div class="table-header">
+    <div class="header-cell name-col">Name</div>
+    <div class="header-cell connection-col">Connection</div>
+    <div class="header-cell type-col">Type</div>
+    <div class="header-cell rating-col">Rating</div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading referrals...</p>
+  </div>
+
+  <!-- Referrals List -->
+  <div *ngIf="!isLoading" class="referrals-list">
+    <div 
+      *ngFor="let referral of currentReferrals" 
+      class="referral-row">
+      
+      <!-- Name Column -->
+      <div class="cell name-cell">
+        <div class="user-info">
+          <img 
+            [src]="referral.giver_id?.profilePic || 'assets/images/avatar-placeholder.png'"
+            [alt]="activeTab === 'given' ? getReceiverName(referral) : referral.giver_id?.name"
+            class="user-avatar"
+            onerror="this.src='assets/images/avatar-placeholder.png'">
+          <span class="user-name">
+            {{ activeTab === 'given' ? getReceiverName(referral) : referral.giver_id?.name }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Connection Column -->
+      <div class="cell connection-cell">
+        <span class="connection-name">
+          {{ getConnectionName(referral) }}
+        </span>
+      </div>
+
+      <!-- Type Column -->
+      <div class="cell type-cell">
+        <span class="type-badge" [class]="referral.referral_type">
+          {{ referral.referral_type | titlecase }}
+        </span>
+      </div>
+
+      <!-- Rating Column -->
+      <div class="cell rating-cell">
+        <div class="rating-stars">
+          <span 
+            *ngFor="let star of getRatingStars(referral.rating)" 
+            class="star" 
+            [class.filled]="star === 'filled'">
+            ★
+          </span>
+          <span class="rating-value">{{ referral.rating }}.0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="currentReferrals.length === 0" class="empty-state">
+      <div class="empty-icon">📋</div>
+      <h3>No {{ activeTab }} referrals found</h3>
+      <p>{{ activeTab === 'given' ? 'Start creating referrals by clicking the Add button' : 'You haven\'t received any referrals yet' }}</p>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="!isLoading && currentReferrals.length > 0" class="pagination-container">
+    <div class="pagination">
+      <!-- Previous Button -->
+      <button 
+        class="pagination-btn" 
+        [disabled]="currentPage <= 1"
+        (click)="goToPage(currentPage - 1)">
+        <span class="arrow">‹</span>
+      </button>
+
+      <!-- Page Numbers -->
+      <button 
+        *ngFor="let page of paginationPages"
+        class="pagination-btn"
+        [class.active]="page === currentPage"
+        (click)="goToPage(page)">
+        {{ page }}
+      </button>
+
+      <!-- Next Button -->
+      <button 
+        class="pagination-btn" 
+        [disabled]="currentPage >= totalPages"
+        (click)="goToPage(currentPage + 1)">
+        <span class="arrow">›</span>
+      </button>
+    </div>
+    
+    <div class="pagination-info">
+      Page {{ currentPage }} of {{ totalPages }}
+    </div>
+  </div>
+</div>
+
+<!-- Connection Slip Modal -->
+<div *ngIf="showConnectionSlip" class="modal-overlay" (click)="closeConnectionSlip()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Connection Slip</h2>
+      <button class="close-btn" (click)="closeConnectionSlip()">
+        <span>×</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <form [formGroup]="connectionSlipForm" (ngSubmit)="onSubmitConnectionSlip()">
+        
+        <!-- Member Type Selection -->
+        <div class="form-group">
+          <label class="form-label">Is the member In - Chapter or Cross - Chapter?</label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input 
+                type="radio" 
+                value="inside" 
+                (change)="onReferralTypeChange('inside')"
+                [checked]="selectedReferralType === 'inside'">
+              <span class="radio-text">In - Chapter</span>
+            </label>
+            <label class="radio-option">
+              <input 
+                type="radio" 
+                value="outside" 
+                (change)="onReferralTypeChange('outside')"
+                [checked]="selectedReferralType === 'outside'">
+              <span class="radio-text">Cross - Chapter</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Member Selection -->
+        <div class="form-group">
+          <label class="form-label">Select Member</label>
+          <select 
+            formControlName="receiver_id" 
+            class="form-select"
+            [class.error]="connectionSlipForm.get('receiver_id')?.invalid && connectionSlipForm.get('receiver_id')?.touched">
+            <option value="">Choose a member...</option>
+            <option 
+              *ngFor="let user of availableUsers" 
+              [value]="user._id">
+              {{ user.name }} - {{ user.chapter_name }}
+            </option>
+          </select>
+          <div *ngIf="isLoadingUsers" class="loading-text">Loading members...</div>
+        </div>
+
+        <!-- Referral Type (Hidden, controlled by radio buttons) -->
+        <input type="hidden" formControlName="referral_type">
+
+        <!-- Referral Status -->
+        <div class="form-group">
+          <label class="form-label">Referral Status</label>
+          <div class="checkbox-group">
+            <label class="checkbox-option">
+              <input 
+                type="checkbox" 
+                formControlName="told_them_you_would_will">
+              <span class="checkbox-text">Told them you would call</span>
+            </label>
+            <label class="checkbox-option">
+              <input 
+                type="checkbox" 
+                formControlName="given_card">
+              <span class="checkbox-text">Given your card</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Referral Details -->
+        <div class="form-group">
+          <label class="form-label">Referral Details</label>
+          
+          <input 
+            type="text" 
+            formControlName="referral"
+            placeholder="Name"
+            class="form-input">
+          
+          <input 
+            type="tel" 
+            formControlName="mobile_number"
+            placeholder="Mobile Number"
+            class="form-input"
+            [class.error]="connectionSlipForm.get('mobile_number')?.invalid && connectionSlipForm.get('mobile_number')?.touched">
+          
+          <input 
+            type="text" 
+            formControlName="business_name"
+            placeholder="Company Name"
+            class="form-input">
+          
+          <textarea 
+            formControlName="address"
+            placeholder="Address (Optional)"
+            class="form-textarea"
+            rows="3"></textarea>
+          
+          <textarea 
+            formControlName="comments"
+            placeholder="Comments (Optional)"
+            class="form-textarea"
+            rows="3"></textarea>
+        </div>
+
+        <!-- Rating -->
+        <div class="form-group">
+          <label class="form-label">Rating</label>
+          <div class="rating-input">
+            <div class="star-rating">
+              <span 
+                *ngFor="let i of [1,2,3,4,5]" 
+                class="rating-star"
+                [class.active]="i <= connectionSlipForm.get('rating')?.value"
+                (click)="connectionSlipForm.patchValue({rating: i})">
+                ★
+              </span>
+            </div>
+            <span class="rating-text">{{ connectionSlipForm.get('rating')?.value }}.0</span>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" (click)="closeConnectionSlip()">
+            Cancel
+          </button>
+          <button 
+            type="submit" 
+            class="btn-submit"
+            [disabled]="connectionSlipForm.invalid">
+            Create Referral
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

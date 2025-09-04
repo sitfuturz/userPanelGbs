@@ -38,7 +38,7 @@ export const routes: Routes = [
       {
         path: 'referrals',
         component: ReferralsComponent
-      }
+      },
     ]
   },
 
