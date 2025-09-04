@@ -52,7 +52,7 @@
       <div class="cell name-cell">
         <div class="user-info">
           <img 
-            [src]="referral.giver_id?.profilePic || 'assets/images/avatar-placeholder.png'"
+            [src]="referral.giver_id?.profilePic || 'assets/images/placeholder-image.png'"
             [alt]="activeTab === 'given' ? getReceiverName(referral) : referral.giver_id?.name"
             class="user-avatar"
             onerror="this.src='assets/images/avatar-placeholder.png'">

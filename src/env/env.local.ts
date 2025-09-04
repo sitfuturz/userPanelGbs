@@ -1,8 +1,8 @@
 export const environment = {
   production: true,
-  baseURL: 'https://899bkbtx-3200.inc1.devtunnels.ms',
+  baseURL: 'https://gbs-connect.com',
   route: 'mobile',
-  imageUrl:'https://899bkbtx-3200.inc1.devtunnels.ms/',
+  imageUrl:'https://gbs-connect.com/',
   
   };
 

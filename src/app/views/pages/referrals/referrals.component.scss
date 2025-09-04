@@ -1,318 +1,297 @@
-// referrals.component.scss
-// Variables
-$primary-color: #8b1538;
-$primary-hover: #a01b42;
-$secondary-color: #ffd700;
-$success-color: #2d7d32;
-$warning-color: #ef6c00;
-$text-primary: #333;
-$text-secondary: #666;
-$text-muted: #999;
-$border-color: #ddd;
-$background-light: #f8f9fa;
-$background-white: white;
-$shadow-light: rgba(0, 0, 0, 0.1);
-$border-radius: 6px;
-$border-radius-lg: 8px;
-$border-radius-xl: 12px;
+/* referrals.component.css - Light Theme */
 
-// Mixins
-@mixin flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@mixin flex-between {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-@mixin button-base {
-  border: none;
-  border-radius: $border-radius;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-  }
-}
-
-@mixin card-shadow {
-  box-shadow: 0 2px 4px $shadow-light;
-}
-
-// Main container
+/* Main Container */
 .referrals-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: $background-white;
+  background: #f5f5f5;
+  color: #333;
   min-height: 100vh;
-
-  // Header section
-  .referrals-header {
-    @include flex-between;
-    margin-bottom: 30px;
-
-    .page-title {
-      font-size: 32px;
-      font-weight: 600;
-      margin: 0;
-      color: $text-primary;
-    }
-
-    .header-controls {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-
-      .tab-container {
-        display: flex;
-        background: $background-light;
-        border-radius: $border-radius-lg;
-        padding: 4px;
-
-        .tab-btn {
-          @include button-base;
-          padding: 12px 24px;
-          background: transparent;
-          font-size: 14px;
-          color: $text-secondary;
-
-          &.active {
-            background: $secondary-color;
-            color: $text-primary;
-            font-weight: 600;
-          }
-
-          &:hover:not(.active) {
-            background: rgba(255, 215, 0, 0.1);
-          }
-        }
-      }
-
-      .add-btn {
-        @include button-base;
-        @include flex-center;
-        gap: 8px;
-        padding: 12px 20px;
-        background: $primary-color;
-        color: white;
-        font-size: 14px;
-
-        &:hover {
-          background: $primary-hover;
-        }
-
-        .plus-icon {
-          width: 18px;
-          height: 18px;
-          @include flex-center;
-          font-size: 16px;
-          font-weight: bold;
-        }
-      }
-    }
-  }
-
-  // Table styles
-  .table-header {
-    display: grid;
-    grid-template-columns: 2fr 1.5fr 1fr 1fr;
-    gap: 16px;
-    padding: 16px 20px;
-    background: $background-light;
-    border-radius: $border-radius-lg;
-    margin-bottom: 8px;
-    font-weight: 600;
-    color: #555;
-    font-size: 14px;
-  }
-
-  .referrals-list {
-    background: $background-white;
-    border-radius: $border-radius-lg;
-    overflow: hidden;
-    @include card-shadow;
-
-    .referral-row {
-      display: grid;
-      grid-template-columns: 2fr 1.5fr 1fr 1fr;
-      gap: 16px;
-      padding: 20px;
-      border-bottom: 1px solid #f0f0f0;
-      align-items: center;
-      transition: background 0.2s ease;
-
-      &:hover {
-        background: #f9f9f9;
-      }
-
-      &:last-child {
-        border-bottom: none;
-      }
-
-      .user-info {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-
-        .user-avatar {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          object-fit: cover;
-          border: 2px solid #e9ecef;
-        }
-
-        .user-name {
-          font-weight: 500;
-          color: $text-primary;
-        }
-      }
-
-      .connection-name {
-        color: $text-secondary;
-        font-size: 14px;
-      }
-
-      .type-badge {
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 500;
-        text-transform: capitalize;
-
-        &.inside {
-          background: #e8f5e8;
-          color: $success-color;
-        }
-
-        &.outside {
-          background: #fff3e0;
-          color: $warning-color;
-        }
-      }
-
-      .rating-stars {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-
-        .star {
-          color: $border-color;
-          font-size: 16px;
-
-          &.filled {
-            color: $secondary-color;
-          }
-        }
-
-        .rating-value {
-          margin-left: 8px;
-          font-size: 14px;
-          color: $text-secondary;
-        }
-      }
-    }
-  }
-
-  // Loading and empty states
-  .loading-container {
-    text-align: center;
-    padding: 60px 20px;
-    color: $text-secondary;
-
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid #f3f3f3;
-      border-top: 3px solid $primary-color;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 16px;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-  }
-
-  .empty-state {
-    text-align: center;
-    padding: 60px 20px;
-    color: $text-secondary;
-
-    .empty-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-      opacity: 0.5;
-    }
-
-    h3 {
-      margin: 0 0 8px 0;
-      color: $text-primary;
-    }
-
-    p {
-      margin: 0;
-      color: $text-secondary;
-    }
-  }
-
-  // Pagination
-  .pagination-container {
-    @include flex-between;
-    margin-top: 24px;
-    padding: 0 4px;
-
-    .pagination {
-      display: flex;
-      gap: 4px;
-
-      .pagination-btn {
-        @include button-base;
-        width: 40px;
-        height: 40px;
-        border: 1px solid $border-color;
-        background: $background-white;
-        color: $text-secondary;
-        @include flex-center;
-        font-size: 14px;
-
-        &:hover:not(:disabled) {
-          background: $background-light;
-          border-color: $primary-color;
-        }
-
-        &.active {
-          background: $primary-color;
-          color: white;
-          border-color: $primary-color;
-        }
-
-        .arrow {
-          font-size: 18px;
-          font-weight: bold;
-        }
-      }
-    }
-
-    .pagination-info {
-      color: $text-secondary;
-      font-size: 14px;
-    }
-  }
 }
 
-// Modal styles
+/* Header Section */
+.referrals-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.tab-container {
+  display: flex;
+  background: #e8e8e8;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.tab-btn {
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #666;
+}
+
+.tab-btn.active {
+  background: #ffd700;
+  color: #333;
+  font-weight: 600;
+}
+
+.tab-btn:hover:not(.active) {
+  background: rgba(255, 215, 0, 0.1);
+}
+
+.add-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: #8b1538;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #a01b42;
+}
+
+.plus-icon {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Table Styles */
+.table-header {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr 1fr;
+  gap: 16px;
+  padding: 16px 20px;
+  background: #ffeaa7;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+  font-size: 14px;
+}
+
+.referrals-list {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.referral-row {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1fr 1fr;
+  gap: 16px;
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  align-items: center;
+  transition: background 0.2s ease;
+}
+
+.referral-row:hover {
+  background: #f9f9f9;
+}
+
+.referral-row:last-child {
+  border-bottom: none;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e9ecef;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.connection-name {
+  color: #666;
+  font-size: 14px;
+}
+
+.type-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.type-badge.inside {
+  background: #e8f5e8;
+  color: #2d7d32;
+}
+
+.type-badge.outside {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.star {
+  color: #ddd;
+  font-size: 16px;
+}
+
+.star.filled {
+  color: #ffd700;
+}
+
+.rating-value {
+  margin-left: 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Loading and Empty States */
+.loading-container {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #8b1538;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #666;
+}
+
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.empty-state p {
+  margin: 0;
+  color: #666;
+}
+
+/* Pagination */
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  padding: 0 4px;
+}
+
+.pagination {
+  display: flex;
+  gap: 4px;
+}
+
+.pagination-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ddd;
+  background: white;
+  color: #666;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #f8f9fa;
+  border-color: #8b1538;
+}
+
+.pagination-btn.active {
+  background: #8b1538;
+  color: white;
+  border-color: #8b1538;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.arrow {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.pagination-info {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Modal Styles */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -320,367 +299,366 @@ $border-radius-xl: 12px;
   right: 0;
   bottom: 0;
   background: rgba(0, 0, 0, 0.5);
-  @include flex-center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 1000;
   padding: 20px;
-
-  .modal-container {
-    background: $background-white;
-    border-radius: $border-radius-xl;
-    width: 100%;
-    max-width: 600px;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-
-    .modal-header {
-      @include flex-between;
-      padding: 24px 24px 0;
-      margin-bottom: 20px;
-
-      h2 {
-        margin: 0;
-        font-size: 24px;
-        font-weight: 600;
-        color: $text-primary;
-      }
-
-      .close-btn {
-        @include button-base;
-        @include flex-center;
-        width: 40px;
-        height: 40px;
-        background: $background-light;
-        border-radius: 50%;
-        font-size: 24px;
-        color: $text-secondary;
-
-        &:hover {
-          background: #e9ecef;
-        }
-      }
-    }
-
-    .modal-body {
-      padding: 0 24px 24px;
-
-      // Form styles
-      .form-group {
-        margin-bottom: 24px;
-
-        .form-label {
-          display: block;
-          margin-bottom: 8px;
-          font-weight: 500;
-          color: $text-primary;
-          font-size: 14px;
-        }
-
-        .radio-group {
-          display: flex;
-          gap: 20px;
-
-          .radio-option {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            font-size: 14px;
-
-            input[type="radio"] {
-              margin-right: 8px;
-              accent-color: $primary-color;
-            }
-          }
-        }
-
-        .checkbox-group {
-          display: flex;
-          flex-direction: column;
-          gap: 12px;
-
-          .checkbox-option {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            font-size: 14px;
-
-            input[type="checkbox"] {
-              margin-right: 8px;
-              accent-color: $primary-color;
-            }
-          }
-        }
-
-        .form-input,
-        .form-select,
-        .form-textarea {
-          width: 100%;
-          padding: 12px 16px;
-          border: 1px solid $border-color;
-          border-radius: $border-radius;
-          font-size: 14px;
-          transition: border-color 0.2s ease;
-          margin-bottom: 12px;
-          font-family: inherit;
-
-          &:focus {
-            outline: none;
-            border-color: $primary-color;
-            box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.1);
-          }
-
-          &.error {
-            border-color: #dc3545;
-          }
-        }
-
-        .form-textarea {
-          resize: vertical;
-          min-height: 80px;
-        }
-
-        .loading-text {
-          font-size: 12px;
-          color: $text-secondary;
-          font-style: italic;
-        }
-
-        // Rating input
-        .rating-input {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-
-          .star-rating {
-            display: flex;
-            gap: 4px;
-
-            .rating-star {
-              font-size: 24px;
-              color: $border-color;
-              cursor: pointer;
-              transition: color 0.2s ease;
-
-              &.active,
-              &:hover {
-                color: $secondary-color;
-              }
-            }
-          }
-
-          .rating-text {
-            font-size: 14px;
-            font-weight: 500;
-            color: $text-primary;
-          }
-        }
-      }
-
-      // Form actions
-      .form-actions {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-        margin-top: 32px;
-        padding-top: 20px;
-        border-top: 1px solid #e9ecef;
-
-        .btn-cancel {
-          @include button-base;
-          padding: 12px 24px;
-          border: 1px solid $border-color;
-          background: $background-white;
-          color: $text-secondary;
-          font-size: 14px;
-
-          &:hover {
-            background: $background-light;
-            border-color: $text-muted;
-          }
-        }
-
-        .btn-submit {
-          @include button-base;
-          padding: 12px 24px;
-          background: $primary-color;
-          color: white;
-          font-size: 14px;
-
-          &:hover:not(:disabled) {
-            background: $primary-hover;
-          }
-        }
-      }
-    }
-  }
 }
 
-// Responsive design
+.modal-container {
+  background: white;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 24px 0;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+}
+
+.close-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: #f8f9fa;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #666;
+  transition: background 0.2s ease;
+}
+
+.close-btn:hover {
+  background: #e9ecef;
+}
+
+.modal-body {
+  padding: 0 24px 24px;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 20px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.radio-option input[type="radio"] {
+  margin-right: 8px;
+  accent-color: #8b1538;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.checkbox-option input[type="checkbox"] {
+  margin-right: 8px;
+  accent-color: #8b1538;
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+  margin-bottom: 12px;
+  background: white;
+  color: #333;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: #8b1538;
+  box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.1);
+}
+
+.form-input.error,
+.form-select.error {
+  border-color: #dc3545;
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #999;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 80px;
+  font-family: inherit;
+}
+
+.loading-text {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+}
+
+/* Rating Input */
+.rating-input {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.star-rating {
+  display: flex;
+  gap: 4px;
+}
+
+.rating-star {
+  font-size: 24px;
+  color: #ddd;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.rating-star.active,
+.rating-star:hover {
+  color: #ffd700;
+}
+
+.rating-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Form Actions */
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 32px;
+  padding-top: 20px;
+  border-top: 1px solid #e9ecef;
+}
+
+.btn-cancel {
+  padding: 12px 24px;
+  border: 1px solid #ddd;
+  background: white;
+  color: #666;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-cancel:hover {
+  background: #f8f9fa;
+  border-color: #999;
+}
+
+.btn-submit {
+  padding: 12px 24px;
+  border: none;
+  background: #8b1538;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: #a01b42;
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
   .referrals-container {
     padding: 16px;
-
-    .referrals-header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 16px;
-
-      .header-controls {
-        width: 100%;
-        justify-content: space-between;
-      }
-    }
-
-    .table-header {
-      display: none; // Hide header on mobile
-    }
-
-    .referrals-list .referral-row {
-      grid-template-columns: 1fr;
-      gap: 8px;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 16px;
-      border-radius: $border-radius-lg;
-      margin-bottom: 8px;
-      background: $background-white;
-      @include card-shadow;
-
-      .cell {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 4px 0;
-
-        &::before {
-          font-weight: 600;
-          color: $text-secondary;
-          font-size: 12px;
-          text-transform: uppercase;
-        }
-
-        &.name-cell::before { content: 'Name'; }
-        &.connection-cell::before { content: 'Connection'; }
-        &.type-cell::before { content: 'Type'; }
-        &.rating-cell::before { content: 'Rating'; }
-      }
-
-      .user-info {
-        justify-content: flex-end;
-      }
-    }
-
-    .modal-overlay {
-      .modal-container {
-        margin: 10px;
-        width: calc(100% - 20px);
-
-        .modal-header,
-        .modal-body {
-          padding: 16px;
-        }
-
-        .modal-body {
-          .form-group {
-            .radio-group {
-              flex-direction: column;
-              gap: 12px;
-            }
-          }
-
-          .form-actions {
-            flex-direction: column-reverse;
-          }
-        }
-      }
-    }
-
-    .pagination-container {
-      flex-direction: column;
-      gap: 16px;
-      text-align: center;
-    }
   }
+  
+  .referrals-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .header-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .table-header {
+    display: none;
+  }
+  
+  .referrals-list .referral-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .cell {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+  }
+  
+  .cell::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #666;
+    font-size: 12px;
+    text-transform: uppercase;
+  }
+  
+  .name-cell::before { content: 'Name'; }
+  .connection-cell::before { content: 'Connection'; }
+  .type-cell::before { content: 'Type'; }
+  .rating-cell::before { content: 'Rating'; }
+  
+  .user-info {
+    justify-content: flex-end;
+  }
+  
+  .modal-container {
+    margin: 10px;
+    width: calc(100% - 20px);
+  }
+  
+  .modal-header,
+  .modal-body {
+    padding: 16px;
+  }
+  
+  .radio-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+  
+  .pagination-container {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+} 
+  
+  .user-info {
+    justify-content: flex-end;
+  }
+  
+  .modal-container {
+    margin: 10px;
+    width: calc(100% - 20px);
+  }
+  
+  .modal-header,
+  .modal-body {
+    padding: 16px;
+  }
+  
+  .radio-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+  
+  .pagination-container {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+
+/* Scrollbar Styling for Dark Theme */
+.modal-container::-webkit-scrollbar,
+.form-textarea::-webkit-scrollbar {
+  width: 8px;
 }
 
-// Dark mode support
-@media (prefers-color-scheme: dark) {
-  .referrals-container {
-    background: #1a1a1a;
-    color: #e0e0e0;
+.modal-container::-webkit-scrollbar-track,
+.form-textarea::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
 
-    .page-title {
-      color: #e0e0e0;
-    }
+.modal-container::-webkit-scrollbar-thumb,
+.form-textarea::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 4px;
+}
 
-    .tab-container {
-      background: #2a2a2a;
-
-      .tab-btn {
-        color: #b0b0b0;
-
-        &.active {
-          background: $secondary-color;
-          color: $text-primary;
-        }
-      }
-    }
-
-    .table-header {
-      background: #2a2a2a;
-      color: #b0b0b0;
-    }
-
-    .referrals-list {
-      background: #2a2a2a;
-
-      .referral-row {
-        border-bottom-color: #333;
-
-        &:hover {
-          background: #333;
-        }
-
-        .user-name {
-          color: #e0e0e0;
-        }
-
-        .connection-name {
-          color: #b0b0b0;
-        }
-      }
-    }
-  }
-
-  .modal-overlay .modal-container {
-    background: #2a2a2a;
-    color: #e0e0e0;
-
-    .modal-header h2 {
-      color: #e0e0e0;
-    }
-
-    .modal-body {
-      .form-label {
-        color: #e0e0e0;
-      }
-
-      .form-input,
-      .form-select,
-      .form-textarea {
-        background: #1a1a1a;
-        border-color: #444;
-        color: #e0e0e0;
-
-        &:focus {
-          border-color: $primary-color;
-        }
-      }
-
-      .rating-text {
-        color: #e0e0e0;
-      }
-    }
-  }
+.modal-container::-webkit-scrollbar-thumb:hover,
+.form-textarea::-webkit-scrollbar-thumb:hover {
+  background: #666;
 }

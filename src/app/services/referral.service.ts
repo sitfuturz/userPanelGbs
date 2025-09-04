@@ -124,7 +124,7 @@ export class ReferralService {
   /**
    * Get given referrals for the current user
    */
-  async getGivenReferrals(page: number = 1, limit: number = 20): Promise<ReferralResponse> {
+  async getGivenReferrals(page: number = 1, limit: number = 20): Promise<any> {
     try {
       this.getHeaders();
       const userId = this.getUserIdFromToken();
@@ -139,7 +139,7 @@ export class ReferralService {
       );
       
       await swalHelper.showToast(response.message || 'Given referrals fetched successfully', 'success');
-      return response.data || response;
+      return  response;
     } catch (error: any) {
       console.error('Get Given Referrals Error:', error);
       await swalHelper.showToast(error.message || 'Failed to fetch given referrals', 'error');
@@ -150,7 +150,7 @@ export class ReferralService {
   /**
    * Get received referrals for the current user
    */
-  async getReceivedReferrals(page: number = 1, limit: number = 20): Promise<ReferralResponse> {
+  async getReceivedReferrals(page: number = 1, limit: number = 20): Promise<any> {
     try {
       this.getHeaders();
       const userId = this.getUserIdFromToken();
@@ -165,7 +165,7 @@ export class ReferralService {
       );
       
       await swalHelper.showToast(response.message || 'Received referrals fetched successfully', 'success');
-      return response.data || response;
+      return  response;
     } catch (error: any) {
       console.error('Get Received Referrals Error:', error);
       await swalHelper.showToast(error.message || 'Failed to fetch received referrals', 'error');
@@ -176,7 +176,7 @@ export class ReferralService {
   /**
    * Get list of inside users (same chapter)
    */
-  async getInsideUsers(page: number = 1, limit: number = 50): Promise<UserResponse> {
+  async getInsideUsers(page: number = 1, limit: number = 50): Promise<any> {
     try {
       this.getHeaders();
       
@@ -190,7 +190,7 @@ export class ReferralService {
       );
       
       await swalHelper.showToast(response.message || 'Inside users fetched successfully', 'success');
-      return response.data || response;
+      return  response;
     } catch (error: any) {
       console.error('Get Inside Users Error:', error);
       await swalHelper.showToast(error.message || 'Failed to fetch inside users', 'error');
