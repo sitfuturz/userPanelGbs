@@ -1,1 +1,231 @@
-<p>gratitude works!</p>
+<div class="gratitude-container">
+  <!-- Header Section -->
+  <div class="gratitude-header">
+    <h1 class="page-title">Gratitude</h1>
+    <div class="header-controls">
+      <div class="tab-container">
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'received'"
+          (click)="switchTab('received')">
+          Received
+        </button>
+        <button 
+          class="tab-btn" 
+          [class.active]="activeTab === 'pending'"
+          (click)="switchTab('pending')">
+          Pending
+        </button>
+      </div>
+      <button class="add-btn" (click)="openGratitudeModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14M5 12h14"/>
+        </svg>
+        Add Gratitude
+      </button>
+    </div>
+  </div>
+
+  <!-- Testimonials Container -->
+  <div class="testimonials-container">
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading testimonials...</p>
+    </div>
+
+    <!-- Testimonials List -->
+    <div *ngIf="!isLoading" class="testimonials-list">
+      <div 
+        *ngFor="let testimonial of currentTestimonials; let i = index" 
+        class="testimonial-card"
+        [class.expanded]="testimonial.selected">
+        
+        <!-- User Info -->
+        <div class="user-section">
+          <img 
+            [src]="testimonial.giverId?.profilePic || 'assets/images/placeholder-image.png'"
+            [alt]="testimonial.giverId?.name"
+            class="user-avatar"
+            onerror="this.src='assets/images/placeholder-image.png'">
+          <div class="user-details">
+            <h3 class="user-name">{{ testimonial.giverId?.name }}</h3>
+            <p class="user-message">{{ testimonial.message }}</p>
+          </div>
+        </div>
+
+        <!-- Status and Date -->
+        <div class="testimonial-meta">
+          <div class="status-section" *ngIf="activeTab === 'received'">
+            <div class="status-indicator" [class.approved]="testimonial.selected">
+              <svg *ngIf="testimonial.selected" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20,6 9,17 4,12"/>
+              </svg>
+              <svg *ngIf="!testimonial.selected" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+              </svg>
+            </div>
+          </div>
+          
+          <div class="date-section">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            <span class="date-text">{{ testimonial.createdAt | date:'d MMM yyyy' }}</span>
+          </div>
+        </div>
+
+        <!-- Expanded Content for Received Tab -->
+        <div *ngIf="testimonial.selected && activeTab === 'received'" class="expanded-content">
+          <div class="receiver-info">
+            <span class="thank-label">Thank you to:</span>
+            <div class="receiver-details">
+              <img 
+                [src]="testimonial.receiverId?.profilePic || 'assets/images/placeholder-image.png'"
+                [alt]="testimonial.receiverId?.name"
+                class="receiver-avatar"
+                onerror="this.src='assets/images/placeholder-image.png'">
+              <div class="receiver-text">
+                <span class="receiver-name">{{ testimonial.receiverId?.name }}</span>
+                <span class="receiver-role">Owner, Iyer Logistics</span>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-message">
+            {{ testimonial.message }}
+          </div>
+        </div>
+
+        <!-- Action Buttons for Pending Tab -->
+        <div *ngIf="activeTab === 'pending'" class="action-buttons">
+          <button class="btn-approve" (click)="approveTestimonial(testimonial._id)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20,6 9,17 4,12"/>
+            </svg>
+            Approve
+          </button>
+          <button class="btn-reject" (click)="rejectTestimonial(testimonial._id)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+            Reject
+          </button>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="currentTestimonials.length === 0" class="empty-state">
+        <div class="empty-icon">💬</div>
+        <h3>No testimonials {{ activeTab }} yet.</h3>
+        <p *ngIf="activeTab === 'received'">Start collecting testimonials by asking your connections!</p>
+        <p *ngIf="activeTab === 'pending'">All testimonials have been reviewed.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div *ngIf="!isLoading && currentTestimonials.length > 0" class="pagination-container">
+    <div class="pagination">
+      <button 
+        class="pagination-btn" 
+        [disabled]="currentPage <= 1"
+        (click)="goToPage(currentPage - 1)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15,18 9,12 15,6"/>
+        </svg>
+      </button>
+      <button 
+        *ngFor="let page of paginationPages"
+        class="pagination-btn"
+        [class.active]="page === currentPage"
+        (click)="goToPage(page)">
+        {{ page }}
+      </button>
+      <button 
+        class="pagination-btn" 
+        [disabled]="currentPage >= totalPages"
+        (click)="goToPage(currentPage + 1)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="9,18 15,12 9,6"/>
+        </svg>
+      </button>
+    </div>
+    <div class="pagination-info">
+      Page {{ currentPage }} of {{ totalPages }}
+    </div>
+  </div>
+
+  <!-- Floating Add Button (Mobile) -->
+  <button class="floating-add-btn" (click)="openGratitudeModal()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12h14"/>
+    </svg>
+  </button>
+</div>
+
+<!-- Add Gratitude Modal -->
+<div *ngIf="showGratitudeModal" class="modal-overlay" (click)="closeGratitudeModal()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Add Your Gratitude</h2>
+      <button class="close-btn" (click)="closeGratitudeModal()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <form [formGroup]="gratitudeForm" (ngSubmit)="onSubmitGratitude()">
+        
+        <!-- Gratitude Type Selection -->
+        <div class="form-section">
+          <div class="dropdown-container">
+            <select formControlName="gratitudeType" class="form-select">
+              <option value="give">Give Testimonial</option>
+              <option value="ask">Ask for Testimonial</option>
+            </select>
+            <svg class="dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6,9 12,15 18,9"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Member Selection -->
+        <div class="form-section">
+          <div class="dropdown-container">
+            <select formControlName="receiverId" class="form-select">
+              <option value="">Select Member</option>
+              <option *ngFor="let user of availableUsers" [value]="user._id">
+                {{ user.name }} - {{ user.chapter_name }}
+              </option>
+            </select>
+            <svg class="dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6,9 12,15 18,9"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Message -->
+        <div class="form-section">
+          <textarea 
+            formControlName="message" 
+            placeholder="Message"
+            class="form-textarea"></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button type="submit" class="btn-submit" [disabled]="gratitudeForm.invalid">
+            Give Testimonial
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

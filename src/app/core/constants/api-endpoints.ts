@@ -52,12 +52,20 @@ class ApiEndpoints {
     getTyfcbsByGiverId: `${this.PATH1}/mobile/get-tyfcbs-by-giverId`,
     getTyfcbsByReceiverId: `${this.PATH1}/mobile/get-tyfcbs-by-receiverId`
   };
-// router.get("/get-tyfcbs-by-giverId/:userId", authMiddleware, tyfcbController.getTyfcbsByGiverId);
-// router.get("/get-tyfcbs-by-ReceiverId/:userId", authMiddleware, tyfcbController.getTyfcbsByReceiverId);
 
-// router.get("/get-inside-users", authMiddleware, userController.getInsideChapterData);
-// router.get("/get-outside-users", authMiddleware, userController.getOutsideChapterData);
+ // Gratitude Management
+  public gratitude = {
+    getTestimonialsByReceiverId: `${this.PATH1}/mobile/get-testimonials-byReceiver`,
+    getTestimonialRequestsByReceiverId: `${this.PATH1}/mobile/get-testimonial-req/receiver`,
+    createTestimonial: `${this.PATH1}/mobile/create-testimonials`,
+    getAllUsersData: `${this.PATH1}/mobile/getAllUsersData`
+  };
 
+// router.get('/get-testimonials-byReceiver/:receiverId', tenstimonialController.getTestimonialsByReceiverId);
+// router.get("/get-testimonial-req/receiver/:receiverId", authMiddleware, testimonialReqController.getTestimonialRequestsByReceiverId);
+// router.post("/create-testimonials", validator(testimonialValidator.testimonialValidation), tenstimonialController.createTestimonial);
+
+// router.get("/getAllUsersData", userController.getAllUsersData);
 
 }
 
