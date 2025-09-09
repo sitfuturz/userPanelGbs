@@ -29,9 +29,15 @@ export class SideBarService {
            icon: 'corner-up-right',
         },
         {
-          title: 'tyfcbslip',
+          title: 'Tyfcbslip',
           link: 'tyfcbslip',
           icon: 'trending-up',
+        },
+        {
+          title: 'Gratitude',
+          link: 'gratitude',
+          icon: 'user-plus',
+          
         },
 
         {

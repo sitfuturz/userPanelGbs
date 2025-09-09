@@ -7,6 +7,7 @@ import { DashboardComponent } from './views/pages/dashboard/dashboard.component'
 import { HomeLayoutComponent } from './views/partials/home-layout/home-layout.component';
 import { ReferralsComponent } from './views/pages/referrals/referrals.component';
 import { TyfcbslipComponent } from './views/pages/tyfcbslip/tyfcbslip.component';
+import { GratitudeComponent } from './views/pages/gratitude/gratitude.component';
 
 export const routes: Routes = [
   // Default redirect to customer login
@@ -43,6 +44,10 @@ export const routes: Routes = [
       {
         path: 'tyfcbslip',
         component: TyfcbslipComponent
+      },
+      {
+        path: 'gratitude',
+        component: GratitudeComponent
       }
     ]
   },
