@@ -12,6 +12,7 @@ import {
 import { swalHelper } from 'src/app/core/constants/swal-helper';
 import { AppStorage } from 'src/app/core/utilities/app-storage';
 import { common } from 'src/app/core/constants/common';
+import { environment } from 'src/env/env.local';
 
 @Component({
   selector: 'app-growth-meet',
@@ -21,6 +22,9 @@ import { common } from 'src/app/core/constants/common';
   styleUrls: ['./growth-meet.component.scss']
 })
 export class GrowthMeetComponent implements OnInit {
+
+  environment = environment;
+
   // Tab state
   activeTab: 'initiated' | 'others' = 'initiated';
   
@@ -293,20 +297,21 @@ export class GrowthMeetComponent implements OnInit {
 
   // Utility methods
   getMemberName(growthMeet: GrowthMeet): string {
+    console.log('Active tab:', growthMeet);
     if (this.activeTab === 'initiated') {
       // Show the other member (member2 if current user is member1)
-      return growthMeet.member2?.name || growthMeet.member1?.name || 'Unknown Member';
+      return growthMeet.memberId2?.name || growthMeet.memberId1?.name || 'Unknown Member';
     } else {
       // Show member1 when viewing others' initiated meets
-      return growthMeet.member1?.name || 'Unknown Member';
+      return growthMeet.memberId1?.name || 'Unknown Member';
     }
   }
 
   getMemberAvatar(growthMeet: GrowthMeet): string {
     if (this.activeTab === 'initiated') {
-      return growthMeet.member2?.profilePic || growthMeet.member1?.profilePic || 'assets/images/placeholder-image.png';
+      return growthMeet.memberId2?.profilePic || growthMeet.memberId1?.profilePic || 'assets/images/placeholder-image.png';
     } else {
-      return growthMeet.member1?.profilePic || 'assets/images/placeholder-image.png';
+      return growthMeet.memberId1?.profilePic || 'assets/images/placeholder-image.png';
     }
   }
 

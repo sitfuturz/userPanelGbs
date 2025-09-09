@@ -12,20 +12,20 @@ export interface GrowthMeet {
     name: string;
     profilePic: string;
   };
-  member1: {
+  memberId1: {
     _id: string;
     name: string;
     profilePic: string;
     designation?: string;
   };
-  member2: {
+  memberId2: {
     _id: string;
     name: string;
     profilePic: string;
     designation?: string;
   };
   date: string;
-  location: string;
+  meet_place: string;
   topics: string;
   photo?: string;
   createdAt: string;

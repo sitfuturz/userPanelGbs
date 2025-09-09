@@ -135,13 +135,15 @@
         <span class="section-label">Member 1:</span>
         <div class="member-info">
           <img 
-            [src]="selectedGrowthMeet?.member1?.profilePic || 'assets/images/placeholder-image.png'"
-            [alt]="selectedGrowthMeet?.member1?.name"
+             [src]="selectedGrowthMeet?.memberId1?.profilePic 
+    ? environment.imageUrl + selectedGrowthMeet?.memberId1?.profilePic 
+    : 'assets/images/placeholder-image.png'"
+            [alt]="selectedGrowthMeet?.memberId1?.name"
             class="member-detail-avatar"
             onerror="this.src='assets/images/placeholder-image.png'">
           <div class="member-text">
-            <span class="member-detail-name">{{ selectedGrowthMeet?.member1?.name }}</span>
-            <span class="member-designation">{{ selectedGrowthMeet?.member1?.designation || 'Member' }}</span>
+            <span class="member-detail-name">{{ selectedGrowthMeet?.memberId1?.name }}</span>
+            <span class="member-designation">{{ selectedGrowthMeet?.memberId1?.designation || 'Member' }}</span>
           </div>
         </div>
       </div>
@@ -151,13 +153,13 @@
         <span class="section-label">Member 2:</span>
         <div class="member-info">
           <img 
-            [src]="selectedGrowthMeet?.member2?.profilePic || 'assets/images/placeholder-image.png'"
-            [alt]="selectedGrowthMeet?.member2?.name"
+            [src]="selectedGrowthMeet?.memberId2?.profilePic || 'assets/images/placeholder-image.png'"
+            [alt]="selectedGrowthMeet?.memberId2?.name"
             class="member-detail-avatar"
             onerror="this.src='assets/images/placeholder-image.png'">
           <div class="member-text">
-            <span class="member-detail-name">{{ selectedGrowthMeet?.member2?.name }}</span>
-            <span class="member-designation">{{ selectedGrowthMeet?.member2?.designation || 'Member' }}</span>
+            <span class="member-detail-name">{{ selectedGrowthMeet?.memberId2?.name }}</span>
+            <span class="member-designation">{{ selectedGrowthMeet?.memberId2?.designation || 'Member' }}</span>
           </div>
         </div>
       </div>
@@ -175,7 +177,7 @@
         
         <div class="detail-item">
           <span class="detail-label">Where did you meet?</span>
-          <span class="detail-value">{{ selectedGrowthMeet?.location || 'Not specified' }}</span>
+          <span class="detail-value">{{ selectedGrowthMeet?.meet_place || 'Not specified' }}</span>
         </div>
         
         <div class="detail-item">
