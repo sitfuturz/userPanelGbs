@@ -5,34 +5,36 @@ import { swalHelper } from '../core/constants/swal-helper';
 import { common } from '../core/constants/common';
 import { apiEndpoints } from '../core/constants/api-endpoints';
 
-export interface OneToOne {
+export interface GrowthMeet {
   _id: string;
-  memberId1: {
-    _id: string;
-    name: string;
-    profilePic: string;
-  };
-  memberId2: {
-    _id: string;
-    name: string;
-    profilePic: string;
-  };
-  meet_place: string;
-  photo: string;
   initiatedBy: {
     _id: string;
     name: string;
     profilePic: string;
-  } | null;
+  };
+  member1: {
+    _id: string;
+    name: string;
+    profilePic: string;
+    designation?: string;
+  };
+  member2: {
+    _id: string;
+    name: string;
+    profilePic: string;
+    designation?: string;
+  };
   date: string;
+  location: string;
   topics: string;
+  photo?: string;
   createdAt: string;
 }
 
-export interface OneToOneResponse {
+export interface GrowthMeetResponse {
   success: boolean;
   message: string;
-  data: OneToOne[];
+  data: GrowthMeet[];
   totalDocs?: number;
   totalPages?: number;
   page?: number;
@@ -42,20 +44,37 @@ export interface OneToOneResponse {
   nextPage?: number | null;
 }
 
-export interface CreateOneToOneRequest {
+export interface User {
+  _id: string;
+  name: string;
+  profilePic: string;
+  chapter_name: string;
+  designation?: string;
+}
+
+export interface UserResponse {
+  success: boolean;
+  message: string;
+  data: User[];
+  docs?: User[];
+  totalDocs?: number;
+  totalPages?: number;
+}
+
+export interface CreateGrowthMeetRequest {
   memberId1: string;
   memberId2: string;
-  meet_place?: string;
-  photo?: string;
-  initiatedBy?: string;
-  date?: string;
-  topics?: string;
+  initiatedBy: string;
+  date: string;
+  location: string;
+  topics: string;
+  photo?: File;
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class OneToOneService {
+export class GrowthMeetService {
   private headers: any = [];
 
   constructor(
@@ -89,108 +108,111 @@ export class OneToOneService {
   }
 
   /**
-   * Create a new one-to-one meeting
+   * Get initiated one-to-one meetings
    */
-  async createOneToOne(oneToOneData: CreateOneToOneRequest): Promise<OneToOneResponse> {
+  async getInitiatedOneToOne(page: number = 1, limit: number = 10): Promise<GrowthMeetResponse> {
     try {
       this.getHeaders();
       const userId = this.getUserIdFromToken();
       
-      const requestData = {
-        ...oneToOneData,
-        initiatedBy: userId
-      };
-
       const response = await this.apiManager.request(
         {
-          url: apiEndpoints.oneToOne.createOneToOne,
-          method: 'POST',
-        },
-        requestData,
-        this.headers
-      );
-      
-      await swalHelper.showToast(response.message || 'One-to-one meeting created successfully', 'success');
-      return response.data || response;
-    } catch (error: any) {
-      console.error('Create OneToOne Error:', error);
-      await swalHelper.showToast(error.message || 'Failed to create one-to-one meeting', 'error');
-      throw error;
-    }
-  }
-
-  /**
-   * Get one-to-one meeting by ID
-   */
-  async getOneToOneById(oneToOneId: string): Promise<OneToOneResponse> {
-    try {
-      this.getHeaders();
-      
-      const response = await this.apiManager.request(
-        {
-          url: `${apiEndpoints.oneToOne.getOneToOneById}`,
-          method: 'POST',
-        },
-        { oneToOneId },
-        this.headers
-      );
-      
-      await swalHelper.showToast(response.message || 'One-to-one meeting fetched successfully', 'success');
-      return response.data || response;
-    } catch (error: any) {
-      console.error('Get OneToOne By Id Error:', error);
-      await swalHelper.showToast(error.message || 'Failed to fetch one-to-one meeting', 'error');
-      throw error;
-    }
-  }
-
-  /**
-   * Get initiated one-to-one meetings by user ID
-   */
-  async getInitiatedOneToOne(userId: string, page: number = 1, limit: number = 10): Promise<OneToOneResponse> {
-    try {
-      this.getHeaders();
-      
-      const response = await this.apiManager.request(
-        {
-          url: `${apiEndpoints.oneToOne.getInitiatedOneToOne}/${userId}?page=${page}&limit=${limit}`,
+          url: `${apiEndpoints.growthMeet.getInitiatedOneToOne}/${userId}?page=${page}&limit=${limit}`,
           method: 'GET',
         },
         null,
         this.headers
       );
       
-      await swalHelper.showToast(response.message || 'Initiated one-to-one meetings fetched successfully', 'success');
       return response.data || response;
     } catch (error: any) {
-      console.error('Get Initiated OneToOne Error:', error);
-      await swalHelper.showToast(error.message || 'Failed to fetch initiated one-to-one meetings', 'error');
+      console.error('Get Initiated Growth Meets Error:', error);
+      await swalHelper.showToast(error.message || 'Failed to fetch growth meets', 'error');
       throw error;
     }
   }
 
   /**
-   * Get not initiated one-to-one meetings by user ID
+   * Get growth meets initiated by others
    */
-  async getNotInitiatedOneToOne(userId: string, page: number = 1, limit: number = 10): Promise<OneToOneResponse> {
+  async getInitiatedByOthers(page: number = 1, limit: number = 10): Promise<GrowthMeetResponse> {
     try {
       this.getHeaders();
+      const userId = this.getUserIdFromToken();
       
       const response = await this.apiManager.request(
         {
-          url: `${apiEndpoints.oneToOne.getNotInitiatedOneToOne}/${userId}?page=${page}&limit=${limit}`,
+          url: `${apiEndpoints.growthMeet.getInitiatedByOthers}/${userId}?page=${page}&limit=${limit}`,
           method: 'GET',
         },
         null,
         this.headers
       );
       
-      await swalHelper.showToast(response.message || 'Not initiated one-to-one meetings fetched successfully', 'success');
       return response.data || response;
     } catch (error: any) {
-      console.error('Get Not Initiated OneToOne Error:', error);
-      await swalHelper.showToast(error.message || 'Failed to fetch not initiated one-to-one meetings', 'error');
+      console.error('Get Growth Meets by Others Error:', error);
+      await swalHelper.showToast(error.message || 'Failed to fetch growth meets', 'error');
       throw error;
     }
   }
+
+  /**
+   * Create a new growth meet with FormData (for photo upload)
+   */
+  async createGrowthMeet(formData: FormData): Promise<GrowthMeetResponse> {
+    try {
+      const token = this.storage.get(common.TOKEN);
+      if (!token) {
+        throw new Error('No authentication token found');
+      }
+
+      // For FormData, we don't set Content-Type header - browser will set it automatically with boundary
+      const headers = [{ 
+        Authorization: `Bearer ${token}`
+      }];
+
+      const response = await this.apiManager.request(
+        {
+          url: apiEndpoints.growthMeet.createGrowthMeet,
+          method: 'POST',
+        },
+        formData,
+        headers
+      );
+      
+      await swalHelper.showToast(response.message || 'Growth meet created successfully', 'success');
+      return response.data || response;
+    } catch (error: any) {
+      console.error('Create Growth Meet Error:', error);
+      await swalHelper.showToast(error.message || 'Failed to create growth meet', 'error');
+      throw error;
+    }
+  }
+
+  /**
+   * Get all users for member selection
+   */
+  async getAllUsers(page: number = 1, limit: number = 100): Promise<UserResponse> {
+    try {
+      this.getHeaders();
+      
+      const response = await this.apiManager.request(
+        {
+          url: `${apiEndpoints.gratitude.getAllUsersData}?page=${page}&limit=${limit}`,
+          method: 'GET',
+        },
+        null,
+        this.headers
+      );
+      
+      return response.data || response;
+    } catch (error: any) {
+      console.error('Get All Users Error:', error);
+      await swalHelper.showToast(error.message || 'Failed to fetch users', 'error');
+      throw error;
+    }
+  }
+
+
 }

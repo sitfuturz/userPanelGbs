@@ -62,11 +62,11 @@ class ApiEndpoints {
   };
 
     // OneToOne Management
-  public oneToOne = {
-    createOneToOne: `${this.PATH1}/mobile/create-oneToOne`,
+  public growthMeet = {
+    createGrowthMeet: `${this.PATH1}/mobile/create-oneToOne`,
     getOneToOneById: `${this.PATH1}/mobile/getOneToOneById`,
     getInitiatedOneToOne: `${this.PATH1}/mobile/getInitiated-oneToOne`,
-    getNotInitiatedOneToOne: `${this.PATH1}/mobile/getNotInitiated-oneToOne`
+    getInitiatedByOthers: `${this.PATH1}/mobile/getNotInitiated-oneToOne`
   };
 
 //   router.post(
