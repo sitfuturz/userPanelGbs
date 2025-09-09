@@ -61,11 +61,25 @@ class ApiEndpoints {
     getAllUsersData: `${this.PATH1}/mobile/getAllUsersData`
   };
 
-// router.get('/get-testimonials-byReceiver/:receiverId', tenstimonialController.getTestimonialsByReceiverId);
-// router.get("/get-testimonial-req/receiver/:receiverId", authMiddleware, testimonialReqController.getTestimonialRequestsByReceiverId);
-// router.post("/create-testimonials", validator(testimonialValidator.testimonialValidation), tenstimonialController.createTestimonial);
+    // OneToOne Management
+  public oneToOne = {
+    createOneToOne: `${this.PATH1}/mobile/create-oneToOne`,
+    getOneToOneById: `${this.PATH1}/mobile/getOneToOneById`,
+    getInitiatedOneToOne: `${this.PATH1}/mobile/getInitiated-oneToOne`,
+    getNotInitiatedOneToOne: `${this.PATH1}/mobile/getNotInitiated-oneToOne`
+  };
 
-// router.get("/getAllUsersData", userController.getAllUsersData);
+//   router.post(
+//   "/create-oneToOne",
+
+//   oneToOnePhotoUpload, // Add this middleware
+//   validator(oneToOneValidator.oneToOneValidation),
+//   oneToOneController.createOneToOne
+// );
+// router.post("/getOneToOneById", oneToOneController.getOneToOneById);
+// router.get("/getInitiated-oneToOne/:userId", authMiddleware, oneToOneController.getInitiated);
+// router.get("/getNotInitiated-oneToOne/:userId", authMiddleware, oneToOneController.getNotInitiated);
+
 
 }
 

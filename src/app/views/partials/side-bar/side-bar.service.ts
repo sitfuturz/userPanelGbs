@@ -37,9 +37,12 @@ export class SideBarService {
           title: 'Gratitude',
           link: 'gratitude',
           icon: 'user-plus',
-          
         },
-
+        {
+          title: 'Growth-meet',
+          link: 'growth-meet',
+          icon: 'file-import',
+        },
         {
           title: 'Events',
           icon: 'calendar',
