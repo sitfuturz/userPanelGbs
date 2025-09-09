@@ -151,7 +151,7 @@ $border-radius: 8px;
 .sidebar-brand {
   padding: 24px 20px !important;
   border-bottom: 1px solid $sidebar-border !important;
-
+  background:#FEF0D5;
   .brand-container {
     display: flex !important;
     align-items: center !important;
@@ -177,6 +177,7 @@ $border-radius: 8px;
   padding: 20px 0 !important;
   display: flex !important;
   flex-direction: column !important;
+  background: #ffffff;
 }
 
 .nav-section {
