@@ -13,20 +13,25 @@ export class SideBarService {
       moduleName: 'GBS Customer Portal',
       menus: [
       
-        {
-          title: 'My Profile',
-          link: 'profile',
-          icon: 'user',
-        },
-        {
-          title: 'Members',
-          link: 'members',
-          icon: 'users',
-        },
+        // {
+        //   title: 'My Profile',
+        //   link: 'profile',
+        //   icon: 'user',
+        // },
+        // {
+        //   title: 'Members',
+        //   link: 'members',
+        //   icon: 'users',
+        // },
         {
            title: 'Referrals',
            link: 'referrals',
            icon: 'corner-up-right',
+        },
+        {
+          title: 'tyfcbslip',
+          link: 'tyfcbslip',
+          icon: 'trending-up',
         },
 
         {

@@ -6,6 +6,7 @@ import { VerificationComponent } from './views/pages/verification/verification.c
 import { DashboardComponent } from './views/pages/dashboard/dashboard.component';
 import { HomeLayoutComponent } from './views/partials/home-layout/home-layout.component';
 import { ReferralsComponent } from './views/pages/referrals/referrals.component';
+import { TyfcbslipComponent } from './views/pages/tyfcbslip/tyfcbslip.component';
 
 export const routes: Routes = [
   // Default redirect to customer login
@@ -39,6 +40,10 @@ export const routes: Routes = [
         path: 'referrals',
         component: ReferralsComponent
       },
+      {
+        path: 'tyfcbslip',
+        component: TyfcbslipComponent
+      }
     ]
   },
 

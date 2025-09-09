@@ -44,6 +44,21 @@ class ApiEndpoints {
     deleteReferral: `${this.PATH1}/mobile/delete-referral`,
     getReferralStats: `${this.PATH1}/mobile/referral-stats`
   };
+
+  // Tyfcb Management
+  public tyfcb = {
+    getTyfcbById: `${this.PATH1}/mobile/getTyfcbById`,
+    createTyfcb: `${this.PATH1}/mobile/create-tyfcb`,
+    getTyfcbsByGiverId: `${this.PATH1}/mobile/get-tyfcbs-by-giverId`,
+    getTyfcbsByReceiverId: `${this.PATH1}/mobile/get-tyfcbs-by-receiverId`
+  };
+// router.get("/get-tyfcbs-by-giverId/:userId", authMiddleware, tyfcbController.getTyfcbsByGiverId);
+// router.get("/get-tyfcbs-by-ReceiverId/:userId", authMiddleware, tyfcbController.getTyfcbsByReceiverId);
+
+// router.get("/get-inside-users", authMiddleware, userController.getInsideChapterData);
+// router.get("/get-outside-users", authMiddleware, userController.getOutsideChapterData);
+
+
 }
 
 export let apiEndpoints = new ApiEndpoints();
