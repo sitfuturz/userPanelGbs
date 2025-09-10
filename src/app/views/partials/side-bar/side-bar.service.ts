@@ -81,87 +81,87 @@ export class SideBarService {
         //     },
         //   ]
         // },
-        {
-          title: 'Testimonials',
-          icon: 'message-square',
-          hasSubmenu: true,
-          submenu: [
-            {
-              title: 'My Testimonials',
-              link: 'testimonials/my',
-              icon: 'message-square',
-            },
-            {
-              title: 'Give Testimonial',
-              link: 'testimonials/give',
-              icon: 'message-square',
-            },
-            {
-              title: 'All Testimonials',
-              link: 'testimonials/all',
-              icon: 'message-square',
-            },
-          ]
-        },
-        {
-          title: 'One-to-One',
-          link: 'one-to-one',
-          icon: 'user-check',
-        },
-        {
-          title: 'TYFCB',
-          icon: 'trending-up',
-          hasSubmenu: true,
-          submenu: [
-            {
-              title: 'Give TYFCB',
-              link: 'tyfcb/give',
-              icon: 'trending-up',
-            },
-            {
-              title: 'TYFCB History',
-              link: 'tyfcb/history',
-              icon: 'history',
-            },
-          ]
-        },
-        {
-          title: 'Notifications',
-          link: 'notifications',
-          icon: 'bell',
-        },
-        {
-          title: 'Leaderboard',
-          link: 'leaderboard',
-          icon: 'award',
-        },
-        {
-          title: 'Near By',
-          link: 'nearby',
-          icon: 'map-pin',
-        },
-        {
-          title: 'Podcasts',
-          icon: 'podcast',
-          hasSubmenu: true,
-          submenu: [
-            {
-              title: 'All Podcasts',
-              link: 'podcasts/all',
-              icon: 'podcast',
-            },
-            {
-              title: 'Book Podcast',
-              link: 'podcasts/book',
-              icon: 'calendar-check',
-            },
-            {
-              title: 'My Bookings',
-              link: 'podcasts/my-bookings',
-              icon: 'calendar',
-            },
-          ]
-        },
+        // {
+        //   title: 'Testimonials',
+        //   icon: 'message-square',
+        //   hasSubmenu: true,
+        //   submenu: [
+        //     {
+        //       title: 'My Testimonials',
+        //       link: 'testimonials/my',
+        //       icon: 'message-square',
+        //     },
+        //     {
+        //       title: 'Give Testimonial',
+        //       link: 'testimonials/give',
+        //       icon: 'message-square',
+        //     },
+        //     {
+        //       title: 'All Testimonials',
+        //       link: 'testimonials/all',
+        //       icon: 'message-square',
+        //     },
+        //   ]
+        // },
+        // {
+        //   title: 'One-to-One',
+        //   link: 'one-to-one',
+        //   icon: 'user-check',
+        // },
+        // {
+        //   title: 'TYFCB',
+        //   icon: 'trending-up',
+        //   hasSubmenu: true,
+        //   submenu: [
+        //     {
+        //       title: 'Give TYFCB',
+        //       link: 'tyfcb/give',
+        //       icon: 'trending-up',
+        //     },
+        //     {
+        //       title: 'TYFCB History',
+        //       link: 'tyfcb/history',
+        //       icon: 'history',
+        //     },
+        //   ]
+        // },
+        // {
+        //   title: 'Notifications',
+        //   link: 'notifications',
+        //   icon: 'bell',
+        // },
+        // {
+        //   title: 'Leaderboard',
+        //   link: 'leaderboard',
+        //   icon: 'award',
+        // },
+        // {
+        //   title: 'Near By',
+        //   link: 'nearby',
+        //   icon: 'map-pin',
+        // },
+        // {
+        //   title: 'Podcasts',
+        //   icon: 'podcast',
+        //   hasSubmenu: true,
+        //   submenu: [
+        //     {
+        //       title: 'All Podcasts',
+        //       link: 'podcasts/all',
+        //       icon: 'podcast',
+        //     },
+        //     {
+        //       title: 'Book Podcast',
+        //       link: 'podcasts/book',
+        //       icon: 'calendar-check',
+        //     },
+        //     {
+        //       title: 'My Bookings',
+        //       link: 'podcasts/my-bookings',
+        //       icon: 'calendar',
+        //     },
+        //   ]
+        // },
       ],
     },
   ];
