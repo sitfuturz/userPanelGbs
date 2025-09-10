@@ -76,7 +76,11 @@ public events = {
   getAllAttendance: `${this.PATH}/getAllAttendance`
 };
 
-// router.get("/getAllAttendance/:userId", attendanceController.getAllAttendanceUserId);
+public leaderboard = {
+  getPointsHistory: `${this.PATH}/getPointsHistory1`
+};
+
+// router.post('/getPointsHistory1', leaderboardController.getPointsHistory1);
 
 
 }

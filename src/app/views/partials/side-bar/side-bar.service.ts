@@ -53,6 +53,11 @@ export class SideBarService {
           link: 'attendance',
           icon: 'check-circle',
         },
+        {
+          title: 'Leaderboard',
+          link: 'leaderboard',
+          icon: 'award',
+        },
 
         // {
         //   title: 'Events',
