@@ -44,9 +44,9 @@
             onerror="this.src='assets/images/placeholder-image.png'">
           
           <!-- Event Badge -->
-         <div class="event-badge" [class]="event.event_or_meeting">
+         <!-- <div class="event-badge" [class]="event.event_or_meeting">
   {{ formatEventType(event.event_or_meeting ?? 'unknown') }}
-</div>
+</div> -->
           
           <!-- Paid Badge -->
           <div *ngIf="event.paid" class="paid-badge">
