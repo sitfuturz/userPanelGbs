@@ -72,10 +72,12 @@ public events = {
     getInitiatedByOthers: `${this.PATH1}/mobile/getNotInitiated-oneToOne`
   };
   
-//   router.post("/getEventGallery", authMiddleware, attendanceController.getEventGallery);
+  public attendance = {
+  getAllAttendance: `${this.PATH}/getAllAttendance`
+};
 
-// router.post("/getAllUpcomingEvents", authMiddleware, attendanceController.getAllUpcomingEvents);
-// router.post("/getAllRecentEvents", authMiddleware, attendanceController.getAllRecentEvents);
+// router.get("/getAllAttendance/:userId", attendanceController.getAllAttendanceUserId);
+
 
 }
 

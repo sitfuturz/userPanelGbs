@@ -10,6 +10,7 @@ import { TyfcbslipComponent } from './views/pages/tyfcbslip/tyfcbslip.component'
 import { GratitudeComponent } from './views/pages/gratitude/gratitude.component';
 import { GrowthMeetComponent } from './views/pages/growth-meet/growth-meet.component';
 import { EventComponent } from './views/pages/event/event.component';
+import { AttendanceComponent } from './views/pages/attendance/attendance.component';
 
 export const routes: Routes = [
   // Default redirect to customer login
@@ -58,6 +59,10 @@ export const routes: Routes = [
       {
         path: 'event',
         component: EventComponent
+      },
+      {
+        path: 'attendance',
+        component: AttendanceComponent
       }
     ]
   },

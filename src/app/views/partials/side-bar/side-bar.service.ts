@@ -48,6 +48,11 @@ export class SideBarService {
           link: 'event',
           icon: 'calendar',
         },
+        {
+          title: 'Attendance',
+          link: 'attendance',
+          icon: 'check-circle',
+        },
 
         // {
         //   title: 'Events',
