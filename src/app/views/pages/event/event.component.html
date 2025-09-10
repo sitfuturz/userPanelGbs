@@ -44,9 +44,9 @@
             onerror="this.src='assets/images/placeholder-image.png'">
           
           <!-- Event Badge -->
-          <div class="event-badge" [class]="event.event_or_meeting">
-            {{ formatEventType(event.event_or_meeting) }}
-          </div>
+         <div class="event-badge" [class]="event.event_or_meeting">
+  {{ formatEventType(event.event_or_meeting ?? 'unknown') }}
+</div>
           
           <!-- Paid Badge -->
           <div *ngIf="event.paid" class="paid-badge">
@@ -86,7 +86,9 @@
             </div>
             
             <div class="meta-item mode-badge" [class]="event.mode">
-              <span>{{ formatMode(event.mode) }}</span>
+            <div class="event-badge" [class]="event.event_or_meeting">
+  {{ formatEventType(event.event_or_meeting ?? 'unknown') }}
+</div>
             </div>
           </div>
         </div>
@@ -125,11 +127,7 @@
     <div class="modal-body">
       <!-- Event Image -->
       <div class="event-detail-image" *ngIf="selectedEvent?.thumbnail">
-        <img 
-          *ngIf="selectedEvent"
-          [src]="getEventImage(selectedEvent)"
-          [alt]="selectedEvent?.name"
-          class="detail-thumbnail">
+        <img [src]="selectedEvent && getEventImage(selectedEvent)" [alt]="selectedEvent?.name" class="detail-thumbnail">
       </div>
 
       <!-- Event Details -->
@@ -139,9 +137,9 @@
           <span class="detail-label">Date & Time</span>
           <div class="detail-value">
             <span>{{ formatDate(selectedEvent?.date || '') }}</span>
-            <span *ngIf="selectedEvent?.startTime && selectedEvent?.endTime" class="time-range">
-              {{ formatTime(selectedEvent?.startTime ?? '') }} - {{ formatTime(selectedEvent?.endTime ?? '') }}
-            </span>
+        <span *ngIf="selectedEvent?.startTime && selectedEvent?.endTime" class="time-range">
+  {{ formatTime(selectedEvent?.startTime ?? '') }} - {{ formatTime(selectedEvent?.endTime ?? '') }}
+</span>
           </div>
         </div>
         
@@ -154,8 +152,8 @@
         <!-- Mode -->
         <div class="detail-item">
           <span class="detail-label">Mode</span>
-          <span class="detail-value mode-value" [class]="selectedEvent?.mode">
-            {{ formatMode(selectedEvent?.mode || '') }}
+          <span class="detail-value mode-value" [class]="selectedEvent?.mode || 'offline'">
+            {{ formatMode(selectedEvent?.mode || 'offline') }}
           </span>
         </div>
         

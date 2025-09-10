@@ -8,21 +8,21 @@ import { apiEndpoints } from '../core/constants/api-endpoints';
 export interface Event {
   _id: string;
   name: string;
-  event_or_meeting: 'event' | 'meeting';
+  event_or_meeting?: 'event' | 'meeting';
   date: string;
-  mode: 'online' | 'offline';
-  amount: number;
-  startTime: string;
-  endTime: string;
-  paid: boolean;
-  thumbnail: string;
-  details: string;
-  photos: string[];
-  videos: string[];
-  mapURL: string;
-  location: string;
+  mode?: 'online' | 'offline';
+  amount?: number;
+  startTime?: string;
+  endTime?: string;
+  paid?: boolean;
+  thumbnail?: string;
+  details?: string;
+  photos?: string[];
+  videos?: string[];
+  mapURL?: string;
+  location?: string;
   chapter_name: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
 export interface EventGallery {

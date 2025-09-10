@@ -193,6 +193,7 @@ export class EventComponent implements OnInit {
   }
 
   formatDate(dateString: string): string {
+    if (!dateString) return '';
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
       day: 'numeric',
@@ -214,10 +215,12 @@ export class EventComponent implements OnInit {
   }
 
   formatEventType(type: string): string {
+    if (!type) return 'Event';
     return type.charAt(0).toUpperCase() + type.slice(1);
   }
 
   formatMode(mode: string): string {
+    if (!mode) return 'Offline';
     return mode.charAt(0).toUpperCase() + mode.slice(1);
   }
 
