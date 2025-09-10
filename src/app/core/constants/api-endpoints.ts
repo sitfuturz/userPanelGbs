@@ -17,9 +17,12 @@ class ApiEndpoints {
     getUserDataCounts: `${this.PATH}/getUserDataCounts`,
   };
 
-  public events = {
-    nextNearestEvent: `${this.PATH}/next-nearest-event`
-  };
+public events = {
+  nextNearestEvent: `${this.PATH}/next-nearest-event`,
+  getAllUpcomingEvents: `${this.PATH}/getAllUpcomingEvents`,
+  getAllRecentEvents: `${this.PATH}/getAllRecentEvents`, 
+  getEventGallery: `${this.PATH}/getEventGallery`
+};
 
   public notifications = {
     getNotifications: `${this.PATH}/getNotificationsById`
@@ -68,18 +71,11 @@ class ApiEndpoints {
     getInitiatedOneToOne: `${this.PATH1}/mobile/getInitiated-oneToOne`,
     getInitiatedByOthers: `${this.PATH1}/mobile/getNotInitiated-oneToOne`
   };
+  
+//   router.post("/getEventGallery", authMiddleware, attendanceController.getEventGallery);
 
-//   router.post(
-//   "/create-oneToOne",
-
-//   oneToOnePhotoUpload, // Add this middleware
-//   validator(oneToOneValidator.oneToOneValidation),
-//   oneToOneController.createOneToOne
-// );
-// router.post("/getOneToOneById", oneToOneController.getOneToOneById);
-// router.get("/getInitiated-oneToOne/:userId", authMiddleware, oneToOneController.getInitiated);
-// router.get("/getNotInitiated-oneToOne/:userId", authMiddleware, oneToOneController.getNotInitiated);
-
+// router.post("/getAllUpcomingEvents", authMiddleware, attendanceController.getAllUpcomingEvents);
+// router.post("/getAllRecentEvents", authMiddleware, attendanceController.getAllRecentEvents);
 
 }
 

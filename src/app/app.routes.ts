@@ -9,6 +9,7 @@ import { ReferralsComponent } from './views/pages/referrals/referrals.component'
 import { TyfcbslipComponent } from './views/pages/tyfcbslip/tyfcbslip.component';
 import { GratitudeComponent } from './views/pages/gratitude/gratitude.component';
 import { GrowthMeetComponent } from './views/pages/growth-meet/growth-meet.component';
+import { EventComponent } from './views/pages/event/event.component';
 
 export const routes: Routes = [
   // Default redirect to customer login
@@ -53,6 +54,10 @@ export const routes: Routes = [
       {
         path: 'growth-meet',
         component: GrowthMeetComponent
+      },
+      {
+        path: 'event',
+        component: EventComponent
       }
     ]
   },

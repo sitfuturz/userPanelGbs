@@ -45,26 +45,32 @@ export class SideBarService {
         },
         {
           title: 'Events',
+          link: 'event',
           icon: 'calendar',
-          hasSubmenu: true,
-          submenu: [
-            {
-              title: 'Upcoming Events',
-              link: 'events/upcoming',
-              icon: 'calendar-check',
-            },
-            {
-              title: 'My Events',
-              link: 'events/my-events',
-              icon: 'calendar',
-            },
-            {
-              title: 'Event History',
-              link: 'events/history',
-              icon: 'history',
-            },
-          ]
         },
+
+        // {
+        //   title: 'Events',
+        //   icon: 'calendar',
+        //   hasSubmenu: true,
+        //   submenu: [
+        //     {
+        //       title: 'Upcoming Events',
+        //       link: 'events/upcoming',
+        //       icon: 'calendar-check',
+        //     },
+        //     {
+        //       title: 'My Events',
+        //       link: 'events/my-events',
+        //       icon: 'calendar',
+        //     },
+        //     {
+        //       title: 'Event History',
+        //       link: 'events/history',
+        //       icon: 'history',
+        //     },
+        //   ]
+        // },
         {
           title: 'Testimonials',
           icon: 'message-square',
